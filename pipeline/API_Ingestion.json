@@ -1,0 +1,233 @@
+{
+	"name": "API_Ingestion",
+	"properties": {
+		"activities": [
+			{
+				"name": "WebAPICall",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": {
+						"value": "https://raw.githubusercontent.com/Donatus-dataProjects/MSAzure/refs/heads/main/ADF_Advance/airports.json",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "CopyAPIData",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "WebAPICall",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['code']"
+								},
+								"sink": {
+									"path": "$['code']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['lat']"
+								},
+								"sink": {
+									"path": "$['lat']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['lon']"
+								},
+								"sink": {
+									"path": "$['lon']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['name']"
+								},
+								"sink": {
+									"path": "$['name']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['city']"
+								},
+								"sink": {
+									"path": "$['city']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['state']"
+								},
+								"sink": {
+									"path": "$['state']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['country']"
+								},
+								"sink": {
+									"path": "$['country']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['woeid']"
+								},
+								"sink": {
+									"path": "$['woeid']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['tz']"
+								},
+								"sink": {
+									"path": "$['tz']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['phone']"
+								},
+								"sink": {
+									"path": "$['phone']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['type']"
+								},
+								"sink": {
+									"path": "$['type']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['email']"
+								},
+								"sink": {
+									"path": "$['email']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['url']"
+								},
+								"sink": {
+									"path": "$['url']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['runway_length']"
+								},
+								"sink": {
+									"path": "$['runway_length']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['elev']"
+								},
+								"sink": {
+									"path": "$['elev']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['icao']"
+								},
+								"sink": {
+									"path": "$['icao']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['direct_flights']"
+								},
+								"sink": {
+									"path": "$['direct_flights']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['carriers']"
+								},
+								"sink": {
+									"path": "$['carriers']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_API_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_api_sink",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-03-26T09:29:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,6 @@
+{
+	"name": "Don-Selfhosted",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

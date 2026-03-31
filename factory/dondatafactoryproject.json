@@ -1,0 +1,9 @@
+{
+	"name": "dondatafactoryproject",
+	"location": "southafricanorth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f86436a0-e1f2-4ef5-9599-68e9fc9ff310",
+		"tenantId": "f04e4292-22f4-457f-9732-84b64b711a87"
+	}
+}
